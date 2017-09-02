@@ -1,0 +1,23 @@
+.holder{        
+    width:100%;
+    display:block;
+}
+.content{
+    background:#fff;
+    padding: 28px 26px 33px 25px;
+    
+}
+.popup{
+    border-radius: 7px;
+    background:#6b6a63;
+    padding:6px;  
+    position:absolute;
+    display:block;
+    z-index: 300;
+    margin:auto;
+    top: 15%;
+    left:25%;
+    width:600px;
+    height:400px;
+    display: none;
+}
