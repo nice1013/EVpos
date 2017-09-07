@@ -17,29 +17,45 @@ if ($_SESSION['user'] == "") {
 <html>
     <head>
         <title>Inventory</title>
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/pages.css">
+        
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/inventory.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/priceInput.css">
+
+
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+        <script src="http://192.168.1.100/EVpos/scripts/soundEffects.js"></script>
+        <script src="http://192.168.1.100/EVpos/scripts/inventory.js"></script>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         
-        <div class="login">
-            <div class="super">
-                <div class="left">
-                    <p>Dan Kelly & Son's Auto Management  </p>
+        <div class="container">
+            <div class="nav">
+                <div class="fl halfsize">
+                   
                 </div>
-                <div class="right">
-                    <a href="http://192.168.1.100/DanKelly/carform.php"><img src="http://192.168.1.100/DanKelly/images/plusSign.png" width="25px" height="25px" />
-                    </a>
+                <div class="fr rtl halfsize">
+                    <input type="text" id="barcode" name="barcode" value="" placeholder="Enter Barcode Here"/>
                 </div>
             </div>
-            <div class='mainmenu'
-               <h2>Inventory</h2>
-                   <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-                   <img src="data:image/png;base64,iVBORw0K..." />
+            <div class="mainmenu" id="inventoryList">
+                <div class="InventoryItemRowHeader">
+                    <div id="I_company" class="fl onewidth">Company</div>
+                    <div id="I_name" class="fl twowidth">Name</div>
+                    <div id="I_barcode" class="fl twowidth">Barcode</div>
+                    <div id="I_vender" class="fl twowidth">Vender</div>
+                    
+                    <div id="I_buyprice" class="fr onewidth">Buy Price</div>
+                    <div id="I_sellprice" class="fr onewidth">Sell Price</div>
+                    <div id="I_stock" class="fr onewidth">Stock</div>
+                </div>
+                <?php include_once '/var/www/html/EVpos/phpScripts/getInventoryList.php'; ?>
             </div>
             
-            
+            <?php include_once '/var/www/html/EVpos/pages/menu/inventory/inventoryForm.php'; ?>
         </div>
         
         

@@ -1,7 +1,7 @@
 <?php
 require_once('rb.php');
 
-R::setup( 'mysql:host=192.168.1.100;dbname=auto', 'dankelly', 'password' );
+R::setup( 'mysql:host=localhost;dbname=auto', 'dankelly', 'password' );
 
 
 $login = R::dispense( 'login' );

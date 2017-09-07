@@ -14,39 +14,21 @@ if ($_SESSION['user'] == "") {
 }
 ?>
 
-<html>
-    <head>
-        <title>Inventory</title>
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/pages.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        
-        <div class="login">
-            <div class="super">
-                <div class="left">
-                    <p>Dan Kelly & Son's Auto Management  </p>
-                </div>
-                <div class="right">
-                    <a href="http://192.168.1.100/DanKelly/carform.php"><img src="http://192.168.1.100/DanKelly/images/plusSign.png" width="25px" height="25px" />
-                    </a>
-                </div>
-            </div>
-            <div class='mainmenu'
-               <h2>Inventory</h2>
-                   <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-                   <img src="data:image/png;base64,iVBORw0K..." />
-            </div>
-            
-            
-        </div>
+<div class="mainmenu" id="inventoryForm">
+        <input type="text" id="inbarcode" name="barcode" value="" placeholder="Enter Barcode Here"/>
+        <input type="text" id="incompany" name="company" value="" placeholder="Company Name"/>
+        <input type="text" id="inname" name="name" value="" placeholder="Product Name"/>
+        <input type="text" id="instock" name="stock" value="" placeholder="stock"/>
+        <input type="text" id="invendor" name="vendor" value="" placeholder="vendor"/>
+        <input type="text" id="inbuyprice" name="buyprice" value="" placeholder="Buy Price"/>
+        <input type="text" id="insellprice" name="sellprice" value="" placeholder="Sell Price"/>
+        <div class=" btn7 btnHolder btn btn-default sfx" id="submitBarcode">
+        <div class=" btnLabel" > Submit Item                         
+        </div></div> 
+        <div class=" btn9 btnHolder btn btn-default sfx" id="cancel">
+        <div class=" btnLabel" > Cancel                     
+        </div></div> 
         
         
         
-       
-        
-       
-
-    </body>
-</html>
+</div>

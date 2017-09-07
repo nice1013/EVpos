@@ -1,54 +1,89 @@
 <div class="numberpad">
-    <p>0.00</p>
+    <div id="numberpaddisplay"><p id="pNumPadDisplay">0.00</p></div>
     <div class="row"> 
-        <div id="button1" class="btn6"> 
-            1
-        </div>
-        <div id="button2" class="btn6"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
             <div class="btnLabel">
-                2
+            7
+        </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                8
             </div>
         </div>
-        <div id="button3" class="btn6"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+                9
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                Back
+            </div>
+        </div>
+    </div>
+    <div class="row"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+            4
+        </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                5
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+                6
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                Clear
+            </div>
+        </div>
+    </div><div class="row"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+            1
+        </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+               2
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
             <div class="btnLabel">
                 3
             </div>
         </div>
-        <div id="button4" class="btn6"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
             <div class="btnLabel">
-                4
+                Multiply
+            </div>
+        </div>
+    </div><div class="row"> 
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+            .
+        </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                0
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx"> 
+            <div class="btnLabel">
+                Blank
+            </div>
+        </div>
+        <div id="regButton" class="regLink btn6 btnHolder btn btn-default sfx">
+            <div class="btnLabel">
+                Enter
             </div>
         </div>
     </div>
-    <div class="row"> 
-        <div id="button1"> 1
-        </div>
-        <div id="button2"> 2
-        </div>
-        <div id="button3"> 3
-        </div>
-        <div id="button4"> 4
-        </div>
-    </div>
-    <div class="row"> 
-        <div id="button1"> 1
-        </div>
-        <div id="button2"> 2
-        </div>
-        <div id="button3"> 3
-        </div>
-        <div id="button4"> 4
-        </div>
-    </div>
-    <div class="row"> 
-        <div id="button1"> 1
-        </div>
-        <div id="button2"> 2
-        </div>
-        <div id="button3"> 3
-        </div>
-        <div id="button4"> 4
-        </div>
-    </div>
-    
 </div>

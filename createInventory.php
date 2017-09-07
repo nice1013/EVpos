@@ -1,10 +1,31 @@
 <?php
 require_once('rb.php');
 
-R::setup( 'mysql:host=192.168.1.100;dbname=auto', 'dankelly', 'password' );
+R::setup( 'mysql:host=localhost;dbname=auto', 'dankelly', 'password' );
+
+$inventory = R::dispense( 'inventory' );
 
 
-$login = R::dispense( 'login' );
+/* Inventory system works like this.
+ * 
+ * 
+ * 
+ */
+
+
+        
+$item->id = $_name;
+$item->name = '';
+$item->barcode = '';
+$item->buyprice = '';
+$item->sellprice = '';
+$item->stock = '';
+$item->vendor = '';
+        
+        
+
+
+
 
 $username = "DanKelly6";
 $password = "12345678";
