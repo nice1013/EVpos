@@ -20,29 +20,23 @@ R::setup( 'mysql:host=localhost;dbname=auto', 'dankelly', 'password' );
 $inventory = R::dispense( 'inventory' );
 
 
-$inventory->name         = filter_input(INPUT_POST, 'name');
-$inventory->company      = filter_input(INPUT_POST, 'company');
 $inventory->barcode      = filter_input(INPUT_POST, 'barcode');
-$inventory->buyprice     = filter_input(INPUT_POST, 'buyprice');
-$inventory->sellprice    = filter_input(INPUT_POST, 'sellprice');
-$inventory->stock        = filter_input(INPUT_POST, 'stock');
-$inventory->vendor       = filter_input(INPUT_POST, 'vendor');
-$inventory->gtax       = filter_input(INPUT_POST, 'gtax');
 
 
 $itemsfound = R::findOne('inventory', ' barcode = ? ', [ $inventory->barcode ] );
 
 if (count($itemsfound) == 0) {
-    $inventory->id = R::store($inventory);
-    $sb = true;
-    $results->results = $sb;
-    $results->item = $inventory;
+    //Great nothing to be done.
+    $results->results = true;
+    $results->message = "We didn't have anything to delete. So i guess we're okay. yay.";
     echo json_encode($results);
+    
 }
 else 
 {
-    $sb = false;
-    $results->results = $sb;
+    R::trash($itemsfound);
+    $results->results = true;
+    $results->message = "Great work men. We deleted that pesky item";
     echo json_encode($results);
 }
 

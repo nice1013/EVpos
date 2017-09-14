@@ -43,7 +43,7 @@ function playButtonAudio() {
 
 $(document).ready(function() {
     setupAudio();
-    $('.sfx').live('click', function(e){
+    $('.sfx').live('click', function(e){ 
         //We use the filename of our link as our id
         playButtonAudio();
         

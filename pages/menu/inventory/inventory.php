@@ -17,13 +17,15 @@ if ($_SESSION['user'] == "") {
 <html>
     <head>
         <title>Inventory</title>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+        <link rel="stylesheet" type="text/css"  href="/EVpos/bootstrap-3.3.7/css/bootstrap.css">
+        <script src="/EVpos/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        
         
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/inventory.css">
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/bootstrap.css">
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/priceInput.css">
 
-
-        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+        
         <script src="http://192.168.1.100/EVpos/scripts/soundEffects.js"></script>
         <script src="http://192.168.1.100/EVpos/scripts/inventory.js"></script>
         
@@ -35,26 +37,25 @@ if ($_SESSION['user'] == "") {
         <div class="container">
             <div class="nav">
                 <div class="fl halfsize">
-                   
+                    <p class='backtomainmenu'>Back To Menu</p>
                 </div>
+                
                 <div class="fr rtl halfsize">
                     <input type="text" id="barcode" name="barcode" value="" placeholder="Enter Barcode Here"/>
                 </div>
             </div>
             <div class="mainmenu" id="inventoryList">
                 <div class="InventoryItemRowHeader">
-                    <div id="I_company" class="fl onewidth">Company</div>
-                    <div id="I_name" class="fl twowidth">Name</div>
+                    <div id="I_company" class="fl twowidth">Company</div>
+                    <div id="I_name" class="fl threewidth">Name</div>
                     <div id="I_barcode" class="fl twowidth">Barcode</div>
                     <div id="I_vender" class="fl twowidth">Vender</div>
-                    
-                    <div id="I_buyprice" class="fr onewidth">Buy Price</div>
-                    <div id="I_sellprice" class="fr onewidth">Sell Price</div>
                     <div id="I_stock" class="fr onewidth">Stock</div>
                 </div>
                 <?php include_once '/var/www/html/EVpos/phpScripts/getInventoryList.php'; ?>
+                
             </div>
-            
+            <?php include_once '/var/www/html/EVpos/pages/menu/inventory/inventoryItemDetails.php'; ?>
             <?php include_once '/var/www/html/EVpos/pages/menu/inventory/inventoryForm.php'; ?>
         </div>
         

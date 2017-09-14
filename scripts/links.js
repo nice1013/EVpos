@@ -43,7 +43,7 @@ MenuBuilder.prototype.createButton = function(Label, fileid) {
                             </div></div> `;
         //Putting button inside the thing.
         $(this.menuClass).append(outputClass);
-        $("#"+fileid).css("background", result);
+        //$("#"+fileid).css("background", result);
         return this;
     
 };
@@ -51,7 +51,7 @@ MenuBuilder.prototype.createButton = function(Label, fileid) {
 
 
 $(document).ready(function() {
-    $('div').live('click', function(e){         
+    $('div').live('click', function(e){  
         if (e.target.id.length > 1) {
         //We use the filename of our link as our id
         if (e.target.id === "gobacktomenu"){

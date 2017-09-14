@@ -1,0 +1,75 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 13, 2017, 7:07:13 PM
+    Author     : root
+*/
+
+
+html, body{
+  padding: 0px;
+  margin: 0px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+  width:100%;
+  min-width: 1250px;
+  background-color: #ffffff;
+}
+
+#hr {
+  border: 0; 
+  height: 1px; 
+  background: #333; 
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  padding:0px;
+  margin:0px;
+}
+
+a {
+       text-decoration: none;
+}
+
+/*Centers a text on a class*/
+.btnLabel {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  display: inline;
+}
+
+
+.pad15 {
+    padding:15px;
+    display: inline-block;
+}
+
+p, button{
+    display: inline;
+}
+
+
+.rtl {
+    direction: rtl;
+} 
+
+.fr  { 
+    float:right;
+}
+
+.fl {
+    float:left;
+}
+
+.H100 {
+    height:100%;
+}
+
+
+.halfsize {
+    width:49%;
+}

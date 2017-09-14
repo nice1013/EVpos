@@ -8,6 +8,8 @@
 
 //Handle Barcode Scanning
 var barcode = "";
+var gtax = false;
+var selectedItemObject = null;
 
 //Check if the input box data is improper.
 function checkValueBad(checkthis, intBool) {
@@ -81,7 +83,8 @@ function submitBarcode() {
             'stock': _instock,
             'vendor': _invendor,
             'buyprice': _buyprice,
-            'sellprice': _sellprice},
+            'sellprice': _sellprice,
+            'gtax': gtax},
     success: function(msg) {
       var results = JSON.parse(msg);
       
@@ -120,7 +123,54 @@ function barcodeEnter(_inbarcode) {
   });
 };
 
+function ItemSelected(_inbarcode) {
+  $.ajax({
+    type: 'POST',
+    url: 'http://192.168.1.100/EVpos/phpScripts/getItemEverything.php',
+    data: {'barcode': _inbarcode},
+    success: function(msg) {
+      alert("made it ItemSelected");
+      $('#itemstring').html("");
+      
+      var results = JSON.parse(msg);
+      if (results.results === null)
+      {
+          //Well this wierd. It should have found something. Oh well...
+      }
+      else
+      {
+          //Well well well. We were expecting you. Lets display everything we have. 
+          $('.itemstring').append(msg);
+          selectedItemObject = results.results;
+          FlipToItemDetails();
+      }
+    }
+  });
+};
 
+
+function DeleteItem(_inbarcode) {
+  $.ajax({
+    type: 'POST',
+    url: 'http://192.168.1.100/EVpos/phpScripts/deleteItem.php',
+    data: {'barcode': _inbarcode},
+    success: function(msg) {
+      $('#itemstring').html("");
+      
+      var results = JSON.parse(msg);
+      if (results.results === null)
+      {
+          //Well this wierd. It should have found something. Oh well...
+      }
+      else
+      {
+          //Well well well. We were expecting you. Lets display everything we have. 
+          $('.itemstring').append(msg);
+          selectedItemObject = results.results;
+      }
+    }
+  });
+};
 
 
 
@@ -157,6 +207,11 @@ function queryList(_query) {
 
 
 
+//Functions that deal with UI
+function FlipToItemDetails() {
+    $("#inventoryList").toggle();
+    $("#itemDetails").toggle();
+}
 
 
 //Functions that deal with UI
@@ -209,7 +264,52 @@ function clearForm() {
 
 //Set up site
 $(document).ready(function() {
+    
     $("#inventoryForm").hide();
+    $("#itemDetails").hide();
+    $('.gtaxbutton').css("background-color", "#CC0000");
+});
+
+$('.gtaxbutton').live('click', function(e){  
+    gtax = !gtax;
+    
+    if(gtax === false) {
+        $('.gtaxbutton').css("background-color", "#CC0000");
+        $('.gtaxbuttonsign').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+         
+    }
+    else
+    {
+        $('.gtaxbutton').css("background-color", "#007E33");
+        $('.gtaxbuttonsign').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+
+    }
+  
+});
+
+//Clicking an item loads the item's details.
+$('.InventoryItemRow').live('click', function(e){  
+    var itemselectedbarcode = $(this).children('#I_barcode').html();
+    alert(itemselectedbarcode);
+    ItemSelected(itemselectedbarcode);
+    
+});
+
+
+//Clicking an item loads the item's details.
+$('.backtomainmenu').live('click', function(e){  
+    window.location.href = "http://192.168.1.100/EVpos/Menu.php";
+});
+
+//Clicking an item loads the item's details.
+$('.backtoimenu').live('click', function(e){  
+    FlipToItemDetails();
+});
+
+//Clicking an item loads the item's details.
+$('.delete').live('click', function(e){  
+    
+    DeleteItem(selectedItemObject.barcode);
 });
 
 $('#submitBarcode').live('click', function(e){  

@@ -35,7 +35,7 @@ if ($_SESSION['user'] == "") {
             </div>
             <div class='mainmenu'
                <h2>Inventory</h2>
-                   <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+                   <script src="http://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
                    <img src="data:image/png;base64,iVBORw0K..." />
             </div>
             

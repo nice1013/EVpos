@@ -5,12 +5,107 @@
  * Button Handling
  * Barcode Handling
  */
+phillytaxrate = .02;//
+pataxrate = .06;
+var totaltaxrate = pataxrate + phillytaxrate;
+
+var leftFacing = false;
+
+
+function UI(){
+    //Get parts of page.
+    this.qbid = '.quickbuttons';
+    this.reid = '.reciept';
+    this.nuid = '.numberpad';
+    
+    
+    this.slide = 0; //we have 6 different ways. 
+    
+    //Undo the things we really didn't want to do, but had to to get our code.
+    //Grab our data from each panel
+    
+
+    
+
+    
+    
+    
+}
+
+UI.prototype.slidePane = function() {
+    //Move the three panes areound. it looks funky. idc. we wont be here again pattern is
+    //qbdata redata  nudata 
+    //redata nudata qbdata
+    //nudata qbdata redata 
+    //qbdata nudata redata 
+    //redata qbdata nudata
+    //nudata redata qbdata
+    
+    
+    this.qbdata = $(this.qbid).wrap('<p/>').parent().html();
+    this.redata = $(this.reid).wrap('<p/>').parent().html();
+    this.nudata = $(this.nuid).wrap('<p/>').parent().html();
+    $(this.qbid).unwrap();
+    $(this.reid).unwrap();
+    $(this.nuid).unwrap();
+    //Remove these things, well replace them in a different order.
+    $(this.qbid).remove();
+    $(this.reid).remove();
+    $(this.nuid).remove();
+    
+    
+    
+    
+    if (this.slide === 1) {
+        $('body').append(this.qbdata);
+        $('body').append(this.redata);
+        $('body').append(this.nudata);
+        this.slide = this.slide + 1;
+    }
+    else if (this.slide === 2) {
+        $('body').append(this.redata);
+        $('body').append(this.nudata);
+        $('body').append(this.qbdata);
+        this.slide = this.slide + 1;
+    }   
+    else if (this.slide === 3) {
+        $('body').append(this.nudata);
+        $('body').append(this.qbdata);
+        $('body').append(this.redata);
+        this.slide = this.slide + 1;
+    }    
+    else if (this.slide === 4) {
+        $('body').append(this.qbdata);
+        $('body').append(this.nudata);
+        $('body').append(this.redata);
+        this.slide = this.slide + 1;
+    }   
+    else if (this.slide === 5) {
+        $('body').append(this.redata);
+        $('body').append(this.qbdata);
+        $('body').append(this.nudata);
+        this.slide = 0;
+    }
+    
+    else if (this.slide === 0) {
+        $('body').append(this.nudata);
+        $('body').append(this.redata);
+        $('body').append(this.qbdata);
+        this.slide = this.slide + 1;
+    }   
+    else { 
+        alert("Nothing for some reason"); 
+    }
+    
+};
+
+
+
 function Register(){
     this.price = 0;     //Total cost of their order
-    this.itemBarcodes = []; //List of all the barcodes
-    this.itemPrices = []; // List of all the prices of each barcode
     this.CurrentDisplayNumber = "";
     this.items = [];
+    this.taxes = 0;
     
 };
 
@@ -19,21 +114,63 @@ function itemClass(){
     this.amount = 0;
     this.barcode = 0;
     this.name = 0;
+    this.gtax = false;
     
 };
 
 
-Register.prototype.UpdatePrice = function(name, price) {
-    //List Taxable Items. 
+
+Register.prototype.CancelOrder = function() {
+    this.price = 0;
+    this.items = [];
+    this.taxes = 0;
+    this.RefreshPriceList();
+};
+
+
+Register.prototype.UpdatePrice = function() {
+    //Update the price list. go through each number and do some math
+    //    //for each item in list Items. 
+    var gtaxlist = [];
+    var untaxlist = [];
+    var untaxtotal = 0.00;
+    var taxedtotal = 0.00;
     
-    //List Non-taxable items. 
     
-    //Get Taxes. 
+    this.items.forEach(function(element) {
+           //The item is in this list. increase it's amomunt.
+           if(element.gtax){
+               //append to new 
+               gtaxlist.push(element.price * element.amount);
+               
+           }
+           else
+           {
+               untaxlist.push(element.price * element.amount);
+           }
+           
+    });
     
-    //update price on screen, and in class
+    //Calc taxed total.alert('4')
+    gtaxlist.forEach(function(price) {
+            
+            var newquicktotal = taxedtotal + price;
+            taxedtotal = parseFloat(parseFloat(Math.round(newquicktotal * 100) / 100).toFixed(2));
+            
+    });
     
-    //update taxes on screen, and in class
     
+    this.taxes = taxedtotal * totaltaxrate;
+    parseFloat(parseFloat(Math.round(this.taxes * 100) / 100).toFixed(2));
+    taxedtotal = taxedtotal + (this.taxes);
+    //Calc taxed total.
+    untaxlist.forEach(function(price) {
+           untaxtotal = untaxtotal + price;
+    });
+    
+    
+    this.price = untaxtotal + taxedtotal;
+    $('.chargetotal').html(this.price.toFixed(2));
 };
 
 
@@ -43,15 +180,17 @@ Register.prototype.RefreshPriceList = function() {
     //Clear The price list. Repaint the price list
     $('.listofthings').html('');
     
+    
     this.items.forEach(function(element) {
            //The item is in this list. increase it's amomunt.
            
-           var newprice = parseFloat(Math.round(element.price * 100) / 100).toFixed(2);
+           var newprice = parseFloat(Math.round(element.price * element.amount * 100) / 100).toFixed(2);
            
            //Clear The price list. Repaint the price list
             var row = '<div class="priceitemrow">';
             row = row + '<div class="itemsForPriceDisplay fl">' + element.amount.toString() + ' - ' +  element.name.toString() + ' </div>';
-            row = row +'<div class="itemsForPriceDisplay fr">' + newprice.toString() + '</div></div>';
+            row = row +'<div class="itemsForPriceDisplay fr">' + newprice.toString() + '</div>';
+            row = row + ' </div>';
 
 
            
@@ -59,7 +198,9 @@ Register.prototype.RefreshPriceList = function() {
            
     });
     
-    
+    this.UpdatePrice(); //Update total charge price for the customer
+    //SCroll to bottom.
+    $('.top').animate({ scrollTop: $('.top').get(0).scrollHeight}, 500);
 };
 
 
@@ -90,14 +231,14 @@ Register.prototype.AddToList = function(_input) {
         item.price      = _input.results.sellprice;
         item.name       = _input.results.name;
         item.amount     = 1;
+        item.gtax       = _input.results.gtax;
         //Push into the checkout list
         this.items.push(item);
     }
     
     //Update the item list
     this.RefreshPriceList();
-    //SCroll to bottom.
-    $('.top').animate({ scrollTop: $('.top').get(0).scrollHeight}, 500);
+    
     
 };
 
@@ -112,12 +253,25 @@ Register.prototype.AddToDisplayString = function(character) {
 };
 
 
-Register.prototype.AddCustomPrice = function(input_price) {
-    this.price += input_price;
-    this.itemBarcodes.push("Custom Price");
-    this.itemPrices.push(input_price);
+Register.prototype.AddCustomPrice = function(_gtax) {
     
+    input_price = parseFloat(parseFloat(Math.round(parseFloat(this.CurrentDisplayNumber) * 100) / 10000).toFixed(2));
     
+    if(input_price > 0){
+        var item = new itemClass();
+
+        item.barcode    = "Custom_"+ $.now().toString();
+        item.price      = input_price;
+        item.name       = "Custom_Item";
+        item.amount     = 1;
+        item.gtax       = _gtax;
+        //Push into the checkout list
+        this.items.push(item);
+
+
+        this.RefreshPriceList(); 
+        this.ClearPad(); //Clear the numpad display
+    }
 };
 
 //get number of decimal places in a string
@@ -151,13 +305,72 @@ Register.prototype.SetNumberPadPrice = function() {
 };
 
 
+Register.prototype.changeAmount = function() {
+    try {
+        //Get the decimal number from the screen. turn it into a positive int
+        if (parseFloat(this.CurrentDisplayNumber) > 0) {
+            this.items[this.items.length - 1].amount = parseFloat(this.CurrentDisplayNumber);
+            //Clear the num pad.
+            this.ClearPad();
+            //Update the total price
+            this.RefreshPriceList();
+        }
+    }
+    catch(err) {
+        alert(err.message);
+    }
+    
+};
 
-var registerClass = new Register();
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var registerClass = "";
+var uiClass = "";
+
+//Button Handling Register
+$(document).ready(function() {
+
+    registerClass = new Register();
+    uiClass = new UI();
+
+});
 
 
 
@@ -166,17 +379,20 @@ var registerClass = new Register();
 
 
 //Button Handling Register
-$(document).ready(function() {
-    $('.regLink').live('click', function(e){   
+    $('.regLink').live('click', function(e){  
         var command = $(e.target).text().toString();
         command = command.trim();
         var result = parseInt(command);
+        
+        
         if (isNaN(result)) {
             //Is not a number
             
-            if (command === "."){
-                
-                registerClass.AddToDisplayString(command); //Adding number character to character string.
+            if(command === "X") {
+                registerClass.changeAmount();
+            }
+            else if(e.target.id === "regEnter") {
+                registerClass.AddCustomPrice();
             }
             else if(command === "Clear") {
                 registerClass.ClearPad();
@@ -184,13 +400,15 @@ $(document).ready(function() {
             else if(command === "Back"){
                 registerClass.Back();
             }
-            else 
-            {
+            
+            else {
+                
                 alert("No Command Given For this Button.");
             }
         }
         else {
             //Is a number just send to diplay for it to worry about.
+            
             registerClass.AddToDisplayString(result); //Adding number character to character string.
             
             
@@ -198,7 +416,6 @@ $(document).ready(function() {
         //alert(trext);
     });
         
-});
 
 function GetBarcode() {
   // tmp value: [{"id":21,"children":[{"id":196},{"id":195},{"id":49},{"id":194}]},{"id":29,"children":[{"id":184},{"id":152}]},...]
@@ -245,3 +462,16 @@ $(document).keypress(function(e) {
 
 
 
+$('#CancelOrder').live('click', function(e){  
+    registerClass.CancelOrder();
+});
+
+$('#switchUI').live('click', function(e){  
+    
+    uiClass.slidePane();
+});
+
+$('#switchUI').live('click', function(e){  
+    
+    uiClass.slidePane();
+});

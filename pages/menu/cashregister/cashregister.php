@@ -17,13 +17,16 @@ if ($_SESSION['user'] == "") {
 <html>
     <head>
         <title>EVpos</title>
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/bootstrap-3.3.7/css/bootstrap.css">
+        <script src="http://192.168.1.100/EVpos/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        
+        
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/cashregistration.css">
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/bootstrap.css">
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/priceInput.css">
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/numberpad.css">
-
-
-        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/foundation.css">
+        
+        <script type='text/javascript' src='/EVpos/scripts/jquery-1.6.4.min.js'></script>
         <script src="http://192.168.1.100/EVpos/scripts/soundEffects.js"></script>
         <script src="http://192.168.1.100/EVpos/scripts/register.js"></script>
         <script src="http://192.168.1.100/EVpos/scripts/cashregisterButtons.js"></script>
@@ -31,140 +34,56 @@ if ($_SESSION['user'] == "") {
         <meta charset="UTF-8">
     </head>
     
-        
-        
-        <div class='container2'>
-            <div class="nav"> 
-                <div class="fl halfsize">
-                    
-                    
-                    <div class=" btn7 btnHolder btn btn-default sfx" id="gobacktomenu">
-                    <div class=" btnLabel" id="gobacktomenu"> Back                         
-                    </div></div> 
+    <body>   
+        <div class="nav"> 
+            <div class="fl halfsize H100">
 
-                    <div class=" btn7 btnHolder btn btn-default sfx" id="gobacktomenu">
-                    <div class=" btnLabel" id="gobacktomenu"> Blank                         
-                    </div></div> 
-                    
-                    <div class=" btn7 btnHolder btn btn-default sfx" id="gobacktomenu">
-                    <div class=" btnLabel" id="gobacktomenu"> Blank                         
-                    </div></div> 
-                    
-                    <div class=" btn7 btnHolder btn btn-default sfx" id="gobacktomenu">
-                    <div class=" btnLabel" id="gobacktomenu"> Blank                         
-                    </div></div> 
-                    
-                </div>
-                
-                
-                
-                
-                
-                <div class="fr rtl halfsize">
-                    <input type="text" id="barcode" name="barcode" value="" placeholder="Enter Barcode Here"/>
-                </div>
-                
-                
+
+                <div class=" btn7 btn btn-default sfx" id="gobacktomenu">
+                <div class=" btnLabel" id="gobacktomenu"> Back                         
+                </div></div> 
+
+                <div class=" btn7 btn btn-default sfx" id="switchUI">
+                <div class=" btnLabel" id="switchUI"> <span class='glyphicon glyphicon-resize-horizontal'></span>                          
+                </div></div> 
+
+                <div class=" btn7 btn btn-default sfx" id="gobacktomenu">
+                <div class=" btnLabel" id="gobacktomenu"> Blank                         
+                </div></div> 
+
+                <div class=" btn7 btn btn-default sfx" id="gobacktomenu">
+                <div class=" btnLabel" id="gobacktomenu"> Blank                         
+                </div></div> 
+
             </div>
-            <div class='mainmenu'>
-                <div class="fl H100 halfsize">
-                    
-                    
-                    <!-- Row 1 -->
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    
-                    <!-- Row 2 -->
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    
-                    <!-- Row 3 -->
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    
-                    <!-- Row 4 -->
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                    
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                              
-                    </div></div>
-
-
-                    <div class="link btn8 btnHolder btn btn-default sfx" id="quickprice">
-                    <div class="link btnLabel" id="quickprice"> Blank                            
-                    </div></div>
-                
-                    
-                </div>
-                
-                <div class="fr H100 halfsize">
-                <?php  include_once('numberPad.php');
-                    ?>
-                </div>
                 
                 
                 
-                    
                 
+                
+            <div class="fr rtl halfsize H100">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                <a href="intent:#Intent;action=com.squareup.pos.action.CHARGE;package=com.squareup;S.com.squareup.pos.WEB_CALLBACK_URI=http://192.168.1.100/EVpos/pages/menu/cashregister/cashregister.php;S.com.squareup.pos.CLIENT_ID=sq0idp-0ZX4RXkORg0M1HKHUjS-yg;S.com.squareup.pos.API_VERSION=v2.0;i.com.squareup.pos.TOTAL_AMOUNT=100;S.com.squareup.pos.CURRENCY_CODE=USD;S.com.squareup.pos.TENDER_TYPES=com.squareup.pos.TENDER_CARD,com.squareup.pos.TENDER_CARD_ON_FILE,com.squareup.pos.TENDER_CASH,com.squareup.pos.TENDER_OTHER;end">Send me $</a>
+                <input type="text" id="barcode" name="barcode" value="" placeholder="Enter Barcode Here"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             </div>
-            
+                
+                
         </div>
-        <div class="reciept">
+        
+        <div class="quickbuttons fl">
+                    
+            <?php  include_once('quickbuttons.php');
+            ?>
+              
+        </div>
+                
+        <div class="numberpad fl">
+            <?php  include_once('numberPad.php');
+                ?>
+        </div>
+        
+        
+       
+        <div class="reciept fl">
             <div class="top">
                 <div class="littlenav">
                     <div class="one">Item</div><div class="two">Price</div>
@@ -181,7 +100,9 @@ if ($_SESSION['user'] == "") {
             
             <div class="total">
                 <hr id="hr">
-                <div class="one">Total:</div><div class="two">0.00</div>
+                
+                <div class="fl"> Taxes:</div><div class="fr">0.00</div>
+                <div class="one">Total:</div><div class="two chargetotal">0.00</div>
             </div>
         </div>
         

@@ -200,7 +200,7 @@ p, button{
 
 .btn7  {
     height:75%; 
-    width: 20%;
+    width: 50%;
     background:#2ab7ec;
     color:#ffffff;
     position:relative;
@@ -211,7 +211,7 @@ p, button{
 
 .btn9  {
     height:75%; 
-    width: 20%;
+    width: 50%;
     background:#c9302c;
     color:#ffffff;
     position:relative;
@@ -234,6 +234,21 @@ p, button{
 #inventoryForm input {
     display:block;
     margin: auto;
+    width:50%;
+}
+
+.checkbox {
+    width:60%;
+    margin: auto;
+    display:block;
+}
+
+.widthinventory {
+    display:block;
+    margin: auto;
+    height:20%; 
+   
+    margin-bottom: 10px;
 }
 
 #submitBarcode {
@@ -247,3 +262,11 @@ p, button{
     margin: auto;
     height: 50px;
 }
+
+
+
+
+
+
+
+

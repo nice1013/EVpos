@@ -18,10 +18,11 @@ if ($_SESSION['user'] == "") {
     <head>
         <title>Main Menu</title>
         <link rel="stylesheet" href="css/menu.css">
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
-        <script src="http://192.168.1.100/EVpos/scripts/links.js"></script>
-        <script src="http://192.168.1.100/EVpos/scripts/soundEffects.js"></script>
+        <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.css">
+        <script type='text/javascript' src='/EVpos/scripts/jquery-1.6.4.min.js'></script>
+        
+        <script src="/EVpos/scripts/links.js"></script>
+        <script src="/EVpos/scripts/soundEffects.js"></script>
 
 
         <script>

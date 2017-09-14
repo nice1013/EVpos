@@ -22,13 +22,26 @@ if ($_SESSION['user'] == "") {
         <input type="text" id="invendor" name="vendor" value="" placeholder="vendor"/>
         <input type="text" id="inbuyprice" name="buyprice" value="" placeholder="Buy Price"/>
         <input type="text" id="insellprice" name="sellprice" value="" placeholder="Sell Price"/>
-        <div class=" btn7 btnHolder btn btn-default sfx" id="submitBarcode">
+        
+        <div class='checkbox'>
+         <p>
+            <a href="#" class="checkbox gtaxbutton btn btn-info btn-lg ">
+                <span class="gtaxbuttonsign glyphicon glyphicon-ok"></span> 
+                Grocery Taxable? 
+                <span class="gtaxbuttonsign glyphicon glyphicon-ok"></span> 
+            </a>
+         </p> 
+        </div>
+        
+        
+       <div class="widthinventory ">
+        <div class=" btn7 btnHolder btn btn-default sfx fr" id="submitBarcode">
         <div class=" btnLabel" > Submit Item                         
         </div></div> 
-        <div class=" btn9 btnHolder btn btn-default sfx" id="cancel">
+        <div class=" btn9 btnHolder btn btn-default sfx fl" id="cancel">
         <div class=" btnLabel" > Cancel                     
         </div></div> 
-        
+       </div>
         
         
 </div>
