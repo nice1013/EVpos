@@ -13,24 +13,24 @@ var leftFacing = false;
 
 
 function UI(){
+    //THings to do with the moving of the page
     //Get parts of page.
     this.qbid = '.quickbuttons';
     this.reid = '.reciept';
     this.nuid = '.numberpad';
-    
-    
     this.slide = 0; //we have 6 different ways. 
     
     //Undo the things we really didn't want to do, but had to to get our code.
     //Grab our data from each panel
     
 
-    
+
 
     
     
     
 }
+
 
 UI.prototype.slidePane = function() {
     //Move the three panes areound. it looks funky. idc. we wont be here again pattern is
@@ -100,34 +100,49 @@ UI.prototype.slidePane = function() {
 };
 
 
-
+//Register just has the face and current value of the current transactions. it holds only one item
+//When the cash or credit buutton is hit, the tranasction is passed to the transaction class.
 function Register(){
-    this.price = 0;     //Total cost of their order
-    this.CurrentDisplayNumber = "";
-    this.items = [];
-    this.taxes = 0;
-    
+    this.price = 0;                 //Total cost of their order -- in the receipts column inside cash register.php
+    this.CurrentDisplayNumber = ""; //The display number for the numpad
+    this.items = [];                //The list of items the person has scanned or punched in
+    this.taxes = 0;                 //The currnent taxes owed for this owrder calculated by looping items and doing the math for untaxed and taxed items
+    this.subtotal = 0;              //The amount it cost before taxes are applied
+    this.untaxtotal = 0;            //The amount of goods in the transaction that were untaxed
+    this.taxedtotal = 0;            //The amount of goods in the treansactions or items list, that were taxable.
+    this.creditpaid = 0;       //The amount the customer has paid in credit to the customer.
+    this.cashpaid = 0;         //The aomunt the customer has pain in cash towards the transaction
+    this.amountowed = 0;            //The amount still owed to the cash register from customer. calculated by price - (totalcreditpaid + totalcashpaid)
 };
 
 function itemClass(){
-    this.price = 0;     //Total cost of their order
-    this.amount = 0;
-    this.barcode = 0;
-    this.name = 0;
-    this.gtax = false;
+    this.price = 0;     //Sell Price for this item
+    this.amount = 0;    //How many items are we selling.  
+    this.barcode = 0;   //The barcode of this item
+    this.name = "";     //This product's name.
+    this.gtax = false;  //Is this item grocery taxable.
+    
+};
+
+
+Register.prototype.ClearOrder = function() {
+    this.price = 0;
+    this.items = [];
+    this.taxes = 0;                 //The currnent taxes owed for this owrder calculated by looping items and doing the math for untaxed and taxed items
+    this.subtotal = 0;              //The amount it cost before taxes are applied
+    this.untaxtotal = 0;            //The amount of goods in the transaction that were untaxed
+    this.taxedtotal = 0;            //The amount of goods in the treansactions or items list, that were taxable.
+    this.creditpaid = 0;       //The amount the customer has paid in credit to the customer.
+    this.cashpaid = 0;         //The aomunt the customer has pain in cash towards the transaction
+    this.amountdue = 0;            //The amount still owed to the cash register from customer. calculated by price - (totalcreditpaid + totalcashpaid)
+    this.RefreshPriceList();
     
 };
 
 
 
-Register.prototype.CancelOrder = function() {
-    this.price = 0;
-    this.items = [];
-    this.taxes = 0;
-    this.RefreshPriceList();
-};
 
-
+//Calculate the new price based on the items[] list
 Register.prototype.UpdatePrice = function() {
     //Update the price list. go through each number and do some math
     //    //for each item in list Items. 
@@ -136,46 +151,54 @@ Register.prototype.UpdatePrice = function() {
     var untaxtotal = 0.00;
     var taxedtotal = 0.00;
     
-    
+    //Sort items into taxed and untaxed list
     this.items.forEach(function(element) {
            //The item is in this list. increase it's amomunt.
            if(element.gtax){
                //append to new 
                gtaxlist.push(element.price * element.amount);
-               
            }
            else
            {
                untaxlist.push(element.price * element.amount);
            }
-           
     });
     
-    //Calc taxed total.alert('4')
+    //Calculate the totals for each of list    
     gtaxlist.forEach(function(price) {
-            
-            var newquicktotal = taxedtotal + price;
-            taxedtotal = parseFloat(parseFloat(Math.round(newquicktotal * 100) / 100).toFixed(2));
-            
+        taxedtotal = taxedtotal + price;
     });
     
-    
-    this.taxes = taxedtotal * totaltaxrate;
-    parseFloat(parseFloat(Math.round(this.taxes * 100) / 100).toFixed(2));
-    taxedtotal = taxedtotal + (this.taxes);
-    //Calc taxed total.
     untaxlist.forEach(function(price) {
-           untaxtotal = untaxtotal + price;
+        untaxtotal = untaxtotal + price;
     });
     
+    //Parse this shit as two decimals and create a subtotal.
+    this.untaxtotal = parseFloat(parseFloat(Math.round(untaxtotal * 100) / 100).toFixed(2));
+    this.taxedtotal = parseFloat(parseFloat(Math.round(taxedtotal * 100) / 100).toFixed(2));
+    this.subtotal = untaxtotal + taxedtotal;
     
-    this.price = untaxtotal + taxedtotal;
+    //Calcualate new taxes based on the taxable items
+    this.taxes = this.quickParseFloat(taxedtotal * totaltaxrate);
+    taxedtotal = this.quickParseFloat(taxedtotal + (this.taxes));
+    
+    //Calcuat the new total
+    this.price = this.quickParseFloat(untaxtotal + taxedtotal);
+    var amountpaid  = this.creditpaid + this.cashpaid;
+    this.amountdue = this.price - amountpaid;
+    
+    //Change the labels
+    $('.chargetaxes').html(this.taxes.toFixed(2));
     $('.chargetotal').html(this.price.toFixed(2));
+    $('.chargepaid').html(amountpaid.toFixed(2));
+    $('.chargedue').html(this.amountdue.toFixed(2));
+
+    
 };
 
 
 
-//Pad Function
+//Refreshes the price list
 Register.prototype.RefreshPriceList = function() {
     //Clear The price list. Repaint the price list
     $('.listofthings').html('');
@@ -243,14 +266,6 @@ Register.prototype.AddToList = function(_input) {
 };
 
 
-//Pad Functions
-//Converts numbers and . to a string that can be converted to a float.
-Register.prototype.AddToDisplayString = function(character) {
-    //Check for a periods to make sure we dont have two of them.
-    
-    this.CurrentDisplayNumber = this.CurrentDisplayNumber + "" + character;
-    this.SetNumberPadPrice();
-};
 
 
 Register.prototype.AddCustomPrice = function(_gtax) {
@@ -274,6 +289,18 @@ Register.prototype.AddCustomPrice = function(_gtax) {
     }
 };
 
+
+
+
+//Number Pad
+//Converts numbers and . to a string that can be converted to a float.
+Register.prototype.AddToDisplayString = function(character) {
+    //Check for a periods to make sure we dont have two of them.
+    
+    this.CurrentDisplayNumber = this.CurrentDisplayNumber + "" + character;
+    this.SetNumberPadPrice();
+};
+
 //get number of decimal places in a string
 Register.prototype.decimalPlaces = function(num) {
   var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
@@ -281,6 +308,10 @@ Register.prototype.decimalPlaces = function(num) {
   return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 };
 
+//Returns a formated 2 decimal float from a number string.
+Register.prototype.quickParseFloat = function(num) {
+    return parseFloat(parseFloat(Math.round(parseFloat(num) * 100) / 100).toFixed(2));
+}
 
 Register.prototype.Back = function() {
     //Reseting everything back to normal.
@@ -369,6 +400,9 @@ $(document).ready(function() {
 
     registerClass = new Register();
     uiClass = new UI();
+    
+    
+
 
 });
 
@@ -391,9 +425,6 @@ $(document).ready(function() {
             if(command === "X") {
                 registerClass.changeAmount();
             }
-            else if(e.target.id === "regEnter") {
-                registerClass.AddCustomPrice();
-            }
             else if(command === "Clear") {
                 registerClass.ClearPad();
             }
@@ -403,7 +434,6 @@ $(document).ready(function() {
             
             else {
                 
-                alert("No Command Given For this Button.");
             }
         }
         else {
@@ -421,7 +451,7 @@ function GetBarcode() {
   // tmp value: [{"id":21,"children":[{"id":196},{"id":195},{"id":49},{"id":194}]},{"id":29,"children":[{"id":184},{"id":152}]},...]
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/getInventory.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/getInventory.php',
     data: {'barcode': barcode},
     success: function(msg) {
       var msg2 = JSON.parse(msg);
@@ -463,7 +493,8 @@ $(document).keypress(function(e) {
 
 
 $('#CancelOrder').live('click', function(e){  
-    registerClass.CancelOrder();
+    registerClass.ClearOrder(); //Cancel the current order. OR CLEAR
+    registerClass.ClearPad(); //Clear the number pad
 });
 
 $('#switchUI').live('click', function(e){  
@@ -471,7 +502,20 @@ $('#switchUI').live('click', function(e){
     uiClass.slidePane();
 });
 
-$('#switchUI').live('click', function(e){  
+$('#taxedItem').live('click', function(e){  
     
-    uiClass.slidePane();
+    registerClass.AddCustomPrice(true);
 });
+
+$('#untaxedItem').live('click', function(e){  
+    registerClass.AddCustomPrice(false);
+});
+
+
+$('#deleteItem').live('click', function(e){  
+    registerClass.items.pop(); //Get rid of last item
+    registerClass.RefreshPriceList();
+});
+
+
+

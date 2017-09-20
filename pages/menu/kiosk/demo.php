@@ -10,7 +10,7 @@ session_start(); // Starting Session
 if ($_SESSION['user'] == "") {
     #password failed
     echo "No User";
-    header('Location: http://192.168.1.100/EVpos/index.php'); // Redirecting To Other Page
+    header('Location: http://192.168.1.123/EVpos/index.php'); // Redirecting To Other Page
 }
 ?>
 
@@ -18,12 +18,12 @@ if ($_SESSION['user'] == "") {
 <html>
     <head>
         <title>EVpos</title>
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/demo.css">
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.123/EVpos/css/demo.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.123/EVpos/css/bootstrap.css">
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
-        <script src="http://192.168.1.100/EVpos/scripts/links.js"></script>
-        <script src="http://192.168.1.100/EVpos/scripts/kiosk.js"></script>
-        <script type='text/javascript' src='http://192.168.1.100/EVpos/scripts/goFullScreen.js'></script>
+        <script src="http://192.168.1.123/EVpos/scripts/links.js"></script>
+        <script src="http://192.168.1.123/EVpos/scripts/kiosk.js"></script>
+        <script type='text/javascript' src='http://192.168.1.123/EVpos/scripts/goFullScreen.js'></script>
         <script>
 
             $(document).ready(function() {

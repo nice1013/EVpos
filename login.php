@@ -36,13 +36,13 @@ if (isset($_POST['test'][0][0])) {
             {   
                 #password accepted
                 $_SESSION['user']=$username; // Initializing Session
-                header('Location: http://192.168.1.100/EVpos/Menu.php'); // Redirecting To Other Page
+                header('Location: http://192.168.1.123/EVpos/Menu.php'); // Redirecting To Other Page
             }
             else
             {
                 #password failed
                 $error = "Username or Password is invalid";
-                header('Location: http://192.168.1.100/EVpos/index.php'); // Redirecting To Other Page
+                header('Location: http://192.168.1.123/EVpos/index.php'); // Redirecting To Other Page
             }
             break; #Because we should only have one result anyway.
         }

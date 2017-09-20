@@ -9,7 +9,7 @@ echo $_SESSION['user'];
 
 if (isset($_SESSION['user']) && strlen($_SESSION['user']) > 0) {
      #password accepted
-    header('Location: http://192.168.1.100/EVpos/Menu.php'); // Redirecting To Other Page
+    header('Location: http://192.168.1.123/EVpos/Menu.php'); // Redirecting To Other Page
 }
 ?>
 

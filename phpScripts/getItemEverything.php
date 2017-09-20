@@ -8,7 +8,7 @@ session_start(); // Starting Session
 if ($_SESSION['user'] == "") {
     #password failed
     echo "No User";
-    header('Location: http://192.168.1.100/EVpos/index.php'); // Redirecting To Other Page
+    header('Location: http://192.168.1.123/EVpos/index.php'); // Redirecting To Other Page
 }
 
 

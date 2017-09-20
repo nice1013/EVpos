@@ -70,19 +70,19 @@
         0
     </div>
     </div>
-    <div id="regButton" class="regLink btn6 btn btn-default sfx">
+    <div id="taxedItem" class="regLink btn6 btn btn-default sfx">
         <div class="btnLabel">
-            Taxed
+            Add Taxed <br>Item
         </div>
     </div>
-    <div id="regButton" class="regLink btn6 btn btn-default sfx"> 
+    <div id="untaxedItem" class="regLink btn6 btn btn-default sfx"> 
         <div class="btnLabel">
-            Untaxed
+            Add Untaxed <br>Item
         </div>
     </div>
-    <div id="regEnter" class="regLink btn6 btn btn-default sfx">
+    <div id="deleteItem" class="regLink btn6 btn btn-default sfx">
         <div class="btnLabel">
-            Add Item
+            Delete Last <br>Item
         </div>
     </div>
 </div>

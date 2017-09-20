@@ -56,12 +56,12 @@ $(document).ready(function() {
         //We use the filename of our link as our id
         if (e.target.id === "gobacktomenu"){
             setTimeout(function(){ 
-                window.location.assign("http://192.168.1.100/EVpos/Menu.php");
+                window.location.assign("http://192.168.1.123/EVpos/Menu.php");
             }, 250);
         }
         else    {
             setTimeout(function(){ 
-                window.location.assign("http://192.168.1.100/EVpos/pages/"+e.target.id+".php");
+                window.location.assign("http://192.168.1.123/EVpos/pages/"+e.target.id+".php");
             }, 250);
         }
        

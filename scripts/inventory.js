@@ -76,7 +76,7 @@ function submitBarcode() {
     
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/insertInventory.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/insertInventory.php',
     data: { 'barcode': _barcode,
             'company': _company,
             'name': _inname,
@@ -89,7 +89,7 @@ function submitBarcode() {
       var results = JSON.parse(msg);
       
       if (results.results === true) {
-          window.location = "http://192.168.1.100/EVpos/pages/menu/inventory/inventory.php";
+          window.location = "http://192.168.1.123/EVpos/pages/menu/inventory/inventory.php";
           clearForm();
           FlipToInventoryForm();
       }
@@ -103,7 +103,7 @@ function submitBarcode() {
 function barcodeEnter(_inbarcode) {
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/getInventory.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/getInventory.php',
     data: {'barcode': _inbarcode},
     success: function(msg) {
       
@@ -126,7 +126,7 @@ function barcodeEnter(_inbarcode) {
 function ItemSelected(_inbarcode) {
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/getItemEverything.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/getItemEverything.php',
     data: {'barcode': _inbarcode},
     success: function(msg) {
       alert("made it ItemSelected");
@@ -152,7 +152,7 @@ function ItemSelected(_inbarcode) {
 function DeleteItem(_inbarcode) {
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/deleteItem.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/deleteItem.php',
     data: {'barcode': _inbarcode},
     success: function(msg) {
       $('#itemstring').html("");
@@ -177,7 +177,7 @@ function DeleteItem(_inbarcode) {
 function queryList(_query) {
   $.ajax({
     type: 'POST',
-    url: 'http://192.168.1.100/EVpos/phpScripts/getInventoryList.php',
+    url: 'http://192.168.1.123/EVpos/phpScripts/getInventoryList.php',
     data: {'query': _query},
     success: function(msg) {
       alert("Success");
@@ -298,7 +298,7 @@ $('.InventoryItemRow').live('click', function(e){
 
 //Clicking an item loads the item's details.
 $('.backtomainmenu').live('click', function(e){  
-    window.location.href = "http://192.168.1.100/EVpos/Menu.php";
+    window.location.href = "http://192.168.1.123/EVpos/Menu.php";
 });
 
 //Clicking an item loads the item's details.

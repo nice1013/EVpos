@@ -10,7 +10,7 @@ session_start(); // Starting Session
 if ($_SESSION['user'] == "") {
     #password failed
     echo "No User";
-    header('Location: http://192.168.1.100/EVpos/index.php'); // Redirecting To Other Page
+    header('Location: http://192.168.1.123/EVpos/index.php'); // Redirecting To Other Page
 }
 ?>
 
@@ -22,12 +22,12 @@ if ($_SESSION['user'] == "") {
         <script src="/EVpos/bootstrap-3.3.7/js/bootstrap.min.js"></script>
         
         
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/inventory.css">
-        <link rel="stylesheet" type="text/css"  href="http://192.168.1.100/EVpos/css/priceInput.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.123/EVpos/css/inventory.css">
+        <link rel="stylesheet" type="text/css"  href="http://192.168.1.123/EVpos/css/priceInput.css">
 
         
-        <script src="http://192.168.1.100/EVpos/scripts/soundEffects.js"></script>
-        <script src="http://192.168.1.100/EVpos/scripts/inventory.js"></script>
+        <script src="http://192.168.1.123/EVpos/scripts/soundEffects.js"></script>
+        <script src="http://192.168.1.123/EVpos/scripts/inventory.js"></script>
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
