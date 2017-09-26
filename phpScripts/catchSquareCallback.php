@@ -16,4 +16,13 @@ echo "\n split post";
 
 foreach ($_GET as $key => $value)
  echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+
+
+/*
+echo  "<script type='text/javascript'>";
+echo "window.close();";
+echo "</script>";
+*/
+
+
 ?>

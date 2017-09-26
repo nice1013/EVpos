@@ -4,8 +4,8 @@
 </div></div>
 
 
-<div class="link btn8  btn btn-default sfx" id="quickprice">
-<div class="link btnLabel" id="quickprice"> Blank                           
+<div class="link btn8  btn btn-default sfx" id="EBTpay">
+<div class="link btnLabel" id="EBTpay"> EBT Pay                           
 </div></div>
 
 <div class="link btn8  btn btn-default sfx" id="quickprice">

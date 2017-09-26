@@ -28,6 +28,8 @@ $inventory->sellprice    = filter_input(INPUT_POST, 'sellprice');
 $inventory->stock        = filter_input(INPUT_POST, 'stock');
 $inventory->vendor       = filter_input(INPUT_POST, 'vendor');
 $inventory->gtax       = filter_input(INPUT_POST, 'gtax');
+$inventory->ebt       = filter_input(INPUT_POST, 'ebt');
+
 
 
 $itemsfound = R::findOne('inventory', ' barcode = ? ', [ $inventory->barcode ] );

@@ -9,6 +9,7 @@
 //Handle Barcode Scanning
 var barcode = "";
 var gtax = false;
+var ebt = false; //Does item qualify for ebt
 var selectedItemObject = null;
 
 //Check if the input box data is improper.
@@ -84,7 +85,8 @@ function submitBarcode() {
             'vendor': _invendor,
             'buyprice': _buyprice,
             'sellprice': _sellprice,
-            'gtax': gtax},
+            'gtax': gtax,
+            'ebt': ebt},
     success: function(msg) {
       var results = JSON.parse(msg);
       
@@ -286,6 +288,25 @@ $('.gtaxbutton').live('click', function(e){
     }
   
 });
+
+
+$('.ebtbutton').live('click', function(e){  
+    ebt = !ebt;
+    
+    if(ebt === false) {
+        $('.ebtbutton').css("background-color", "#CC0000");
+        $('.ebtbuttonsign').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+         
+    }
+    else
+    {
+        $('.ebtbutton').css("background-color", "#007E33");
+        $('.ebtbuttonsign').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+
+    }
+  
+});
+
 
 //Clicking an item loads the item's details.
 $('.InventoryItemRow').live('click', function(e){  

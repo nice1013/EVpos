@@ -15,10 +15,10 @@ if ($_SESSION['user'] == "") {
 ?>
 
 <div class="mainmenu" id="itemDetails">
-    <div class='itemstring'>string</div>
-    <div class='quick'>WE HERE</div>
-    <div class='delete'>Delete</div>
-    <div class='backtoimenu'>Back</div>
+    <div onclick='' class='itemstring'>string</div>
+    <div onclick='' class='quick'>WE HERE</div>
+    <div onclick='' class='delete'>Delete</div>
+    <div onclick='' class='backtoimenu'>Back</div>
         
         
 </div>

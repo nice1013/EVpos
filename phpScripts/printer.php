@@ -182,8 +182,13 @@ class EvPrinter {
     
     function printFooter() {
         $this->printer ->setJustification(1); //right side align
+        $this->printer ->setTextSize(1, 1);
+        $this->printer ->text("\n\n\n\n");
+        $this->printer ->text(date("h:i:sa m/d/Y"));
+        
         $this->printer ->setTextSize(3, 3);
-        $this->printer -> text("\nThank You!\n");
+        
+        $this->printer -> text("\n\nThank You!\n");
     }
     
     

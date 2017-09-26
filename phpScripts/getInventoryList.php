@@ -25,7 +25,7 @@ $inventory = R::dispense( 'inventory' );
 
 function NewList($id, $_company, $_name, $_barcode, $_vendor, $_buyprice, $_sellprice, $_stock) {
     
-    $newlist  = '<div class="InventoryItemRow" id="itemrow'.$id.'">';
+    $newlist  = '<div onclick="" class="InventoryItemRow" id="itemrow'.$id.'">';
     $newlist .= '<div id="I_company" class="fl twowidth">' . $_company . '</div>';
     $newlist .= '<div id="I_name" class="fl threewidth">' . $_name . '</div>';
     $newlist .= '<div id="I_barcode" class="fl twowidth">' . $_barcode . '</div>';

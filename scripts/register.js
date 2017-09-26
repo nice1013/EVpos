@@ -103,16 +103,24 @@ UI.prototype.slidePane = function() {
 //Register just has the face and current value of the current transactions. it holds only one item
 //When the cash or credit buutton is hit, the tranasction is passed to the transaction class.
 function Register(){
-    this.price = 0;                 //Total cost of their order -- in the receipts column inside cash register.php
+    //Numpad
     this.CurrentDisplayNumber = ""; //The display number for the numpad
+    
+    //Register 
+    this.price = 0;                 //Total cost of their order -- in the receipts column inside cash register.php
     this.items = [];                //The list of items the person has scanned or punched in
     this.taxes = 0;                 //The currnent taxes owed for this owrder calculated by looping items and doing the math for untaxed and taxed items
     this.subtotal = 0;              //The amount it cost before taxes are applied
-    this.untaxtotal = 0;            //The amount of goods in the transaction that were untaxed
-    this.taxedtotal = 0;            //The amount of goods in the treansactions or items list, that were taxable.
-    this.creditpaid = 0;       //The amount the customer has paid in credit to the customer.
-    this.cashpaid = 0;         //The aomunt the customer has pain in cash towards the transaction
+    this.creditpaid = 0;            //The amount the customer has paid in credit to the customer.
+    this.cashpaid = 0;              //The aomunt the customer has pain in cash towards the transaction
+    this.ebtPaid = 0;               //Total ebt paid
+    this.totalPaid = 0;
     this.amountowed = 0;            //The amount still owed to the cash register from customer. calculated by price - (totalcreditpaid + totalcashpaid)
+    this.refundpaid = 0;                //the amount we are refunding.
+    this.taxableTotal = 0;          //The value amount of what was taxable
+    //Ebt stuff
+    this.etbTotal = 0;              //The amount that qualifies for ebt.
+    this.etbDue = 0;
 };
 
 function itemClass(){
@@ -121,7 +129,7 @@ function itemClass(){
     this.barcode = 0;   //The barcode of this item
     this.name = "";     //This product's name.
     this.gtax = false;  //Is this item grocery taxable.
-    
+    this.ebt = false; //Is this item payable by ebt
 };
 
 
@@ -130,13 +138,11 @@ Register.prototype.ClearOrder = function() {
     this.items = [];
     this.taxes = 0;                 //The currnent taxes owed for this owrder calculated by looping items and doing the math for untaxed and taxed items
     this.subtotal = 0;              //The amount it cost before taxes are applied
-    this.untaxtotal = 0;            //The amount of goods in the transaction that were untaxed
-    this.taxedtotal = 0;            //The amount of goods in the treansactions or items list, that were taxable.
     this.creditpaid = 0;       //The amount the customer has paid in credit to the customer.
     this.cashpaid = 0;         //The aomunt the customer has pain in cash towards the transaction
     this.amountdue = 0;            //The amount still owed to the cash register from customer. calculated by price - (totalcreditpaid + totalcashpaid)
     this.RefreshPriceList();
-    
+
 };
 
 
@@ -148,23 +154,42 @@ Register.prototype.UpdatePrice = function() {
     //    //for each item in list Items. 
     var gtaxlist = [];
     var untaxlist = [];
-    var untaxtotal = 0.00;
-    var taxedtotal = 0.00;
-    
-    //Sort items into taxed and untaxed list
+    var untaxtotal = 0.00; //holds that temp untax value for all non taxed probuts
+    var taxedtotal = 0.00; //hold the temp tax value for all tax products
+    var ebttaxlist = [];
+    var ebtuntaxlist = [];
+    var ebttaxtotal = 0;
+    var ebtuntaxtotal = 0;
+    //Sort our items into 4 list. taxable and non taxable items. And EBT taxable and non taxable items
     this.items.forEach(function(element) {
-           //The item is in this list. increase it's amomunt.
-           if(element.gtax){
-               //append to new 
-               gtaxlist.push(element.price * element.amount);
-           }
-           else
-           {
-               untaxlist.push(element.price * element.amount);
-           }
+        var tinytotal = element.price * element.amount; //The price of item times the amount of items
+        
+        if(element.gtax)
+        {    //This is a taxable item. Keep its tinytotal in the taxable list
+             if(element.ebt) { //Put this item into the ebt list.
+                ebttaxlist.push(tinytotal);
+             }
+             else
+             {
+                gtaxlist.push(tinytotal);
+             }
+        }
+        else
+        {    //We are here, so put this untaxed item into it's list
+             if(element.ebt) { 
+                //Put this item into the ebt list.
+                ebtuntaxlist.push(tinytotal);
+             }
+             else 
+             {
+                untaxlist.push(tinytotal);  
+             }
+
+        }
+           
     });
     
-    //Calculate the totals for each of list    
+    //Get total sum(tinytotals) for each list.    
     gtaxlist.forEach(function(price) {
         taxedtotal = taxedtotal + price;
     });
@@ -172,26 +197,77 @@ Register.prototype.UpdatePrice = function() {
     untaxlist.forEach(function(price) {
         untaxtotal = untaxtotal + price;
     });
+      
+    ebttaxlist.forEach(function(price) {
+        ebttaxtotal = ebttaxtotal + price;
+    });
+     
+    ebtuntaxlist.forEach(function(price) {
+        ebtuntaxtotal = ebtuntaxtotal + price;
+    });
     
-    //Parse this shit as two decimals and create a subtotal.
-    this.untaxtotal = parseFloat(parseFloat(Math.round(untaxtotal * 100) / 100).toFixed(2));
-    this.taxedtotal = parseFloat(parseFloat(Math.round(taxedtotal * 100) / 100).toFixed(2));
-    this.subtotal = untaxtotal + taxedtotal;
+    
+    //Parse this shit as two decimals
+    var combineduntaxtotal = parseFloat(parseFloat(Math.round((untaxtotal + ebtuntaxtotal) * 100) / 100).toFixed(2));
+    var combinedtaxedtotal = parseFloat(parseFloat(Math.round((taxedtotal + ebttaxtotal) * 100) / 100).toFixed(2));
+    
+
+    //Create our pre taxed subtotal
+    this.subtotal = combineduntaxtotal + combinedtaxedtotal;
+    this.ebtTotal = parseFloat(parseFloat(Math.round((ebttaxtotal + ebtuntaxtotal) * 100) / 100).toFixed(2));
+    
+    
+    
+    //Calculate the total paid for this bill
+    this.totalPaid = this.creditpaid + this.cashpaid + this.ebtPaid;
+    //and the EBT that is due on the bill
+    this.ebtDue = this.ebtTotal - this.ebtPaid;
+    
+    
+    
+    //EBT can cancel out taxable items. figure out what our real taxable item value is so we
+    //can give the right bill to the customer. One of these statements have to run.
+    if (this.ebtDue === 0 || this.ebtPaid > ebttaxtotal) {
+        //That means we need nothing from the ebt amounts
+        this.taxableTotal = parseFloat(parseFloat(Math.round((taxedtotal) * 100) / 100).toFixed(2));
+    }
+    else if (this.ebtPaid <= ebttaxtotal)
+    {
+        //this amount paid is less than or equal to ebttaxtotal. get the remainder.
+        var ebttemptaxtotal = ebttaxtotal - this.ebtPaid;
+        //This means we we paid more than the ebttaxtotal and only need the ebtuntaxedamounts
+        this.taxableTotal = parseFloat(parseFloat(Math.round((taxedtotal + ebttemptaxtotal) * 100) / 100).toFixed(2));
+    }
+    
     
     //Calcualate new taxes based on the taxable items
-    this.taxes = this.quickParseFloat(taxedtotal * totaltaxrate);
-    taxedtotal = this.quickParseFloat(taxedtotal + (this.taxes));
+    this.taxes = this.quickParseFloat(this.taxableTotal * totaltaxrate);
     
-    //Calcuat the new total
-    this.price = this.quickParseFloat(untaxtotal + taxedtotal);
-    var amountpaid  = this.creditpaid + this.cashpaid;
-    this.amountdue = this.price - amountpaid;
+    
+    
+    //Calcuat the new total with the original untaxtotal, the original taxed total, and the new taxes
+    this.price = this.quickParseFloat(combineduntaxtotal + combinedtaxedtotal + this.taxes);
+    
+    //The amount due is the total - amountpaid 
+    this.amountdue = this.price - this.totalPaid; 
+        
+    
+    
+    
     
     //Change the labels
-    $('.chargetaxes').html(this.taxes.toFixed(2));
-    $('.chargetotal').html(this.price.toFixed(2));
-    $('.chargepaid').html(amountpaid.toFixed(2));
-    $('.chargedue').html(this.amountdue.toFixed(2));
+    $('.chargesubtotal').html(this.subtotal.toFixed(2));    //Subtotal
+    $('.chargetaxes').html(this.taxes.toFixed(2));          //Taxes
+    $('.chargetotal').html(this.price.toFixed(2));          //Total
+    $('.chargepaid').html(this.totalPaid.toFixed(2));       //Paid
+    $('.chargedue').html(this.amountdue.toFixed(2));        //Amount due
+    $('.chargeebttotal').html(this.ebtTotal.toFixed(2));    //EBT balance
+    $('.chargeebtpaidtotal').html(this.ebtPaid.toFixed(2)); //EBT acceptable balace
+
+    
+    
+    
+    
 
     
 };
@@ -255,6 +331,7 @@ Register.prototype.AddToList = function(_input) {
         item.name       = _input.results.name;
         item.amount     = 1;
         item.gtax       = _input.results.gtax;
+        item.ebt        = _input.results.ebt;
         //Push into the checkout list
         this.items.push(item);
     }
@@ -280,6 +357,7 @@ Register.prototype.AddCustomPrice = function(_gtax) {
         item.name       = "Custom_Item";
         item.amount     = 1;
         item.gtax       = _gtax;
+        item.ebt        = false; //All custom items are automattically false.
         //Push into the checkout list
         this.items.push(item);
 
@@ -470,20 +548,21 @@ function GetBarcode() {
 //Handle Barcode Scanning
 var barcode = "";
 //Handle Barcode input to textbox
-$(document).keydown(function(event){
-  $( "#barcode" ).focus();
-  
-  
-});
 
 $(document).keypress(function(e) {
+    if (($("#barcode").is(":focus")) === false) {
+      $( "#barcode" ).focus();
+    }
+    
     if(e.which === 13) {
-       barcode = $("#barcode").val();
-       
-       $("#barcode").val('');
-       GetBarcode();
        
        setTimeout(function(){ 
+           barcode = $("#barcode").val().trim();
+            $("#barcode").val('');
+            GetBarcode();
+       
+           
+           
            $("#barcode").blur();
             }, 100);
        
@@ -495,6 +574,11 @@ $(document).keypress(function(e) {
 $('#CancelOrder').live('click', function(e){  
     registerClass.ClearOrder(); //Cancel the current order. OR CLEAR
     registerClass.ClearPad(); //Clear the number pad
+});
+
+$('#switchUI').live('click', function(e){  
+    
+    uiClass.slidePane();
 });
 
 $('#switchUI').live('click', function(e){  

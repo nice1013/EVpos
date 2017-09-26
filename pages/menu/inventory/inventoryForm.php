@@ -25,10 +25,20 @@ if ($_SESSION['user'] == "") {
         
         <div class='checkbox'>
          <p>
-            <a href="#" class="checkbox gtaxbutton btn btn-info btn-lg ">
+            <a onclick="" class="checkbox gtaxbutton btn btn-info btn-lg ">
                 <span class="gtaxbuttonsign glyphicon glyphicon-ok"></span> 
                 Grocery Taxable? 
                 <span class="gtaxbuttonsign glyphicon glyphicon-ok"></span> 
+            </a>
+         </p> 
+        </div>
+        
+        <div onclick="" class='checkbox'>
+         <p>
+            <a href="#" class="checkbox ebtbutton btn btn-info btn-lg ">
+                <span class="ebtbuttonsign glyphicon glyphicon-ok"></span> 
+                EBT?
+                <span class="ebtbuttonsign glyphicon glyphicon-ok"></span> 
             </a>
          </p> 
         </div>

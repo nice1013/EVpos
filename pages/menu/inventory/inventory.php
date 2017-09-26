@@ -26,9 +26,8 @@ if ($_SESSION['user'] == "") {
         <link rel="stylesheet" type="text/css"  href="http://192.168.1.123/EVpos/css/priceInput.css">
 
         
-        <script src="http://192.168.1.123/EVpos/scripts/soundEffects.js"></script>
         <script src="http://192.168.1.123/EVpos/scripts/inventory.js"></script>
-        
+        <meta name="format-detection" content="telephone=no">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>

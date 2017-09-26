@@ -126,11 +126,13 @@ if ($_SESSION['user'] == "") {
             
             <div class="total">
                 <hr id="hr">
-                
+                <div class="one"> SubTotal:</div><div class="two chargesubtotal">0.00</div>
                 <div class="one"> Taxes:</div><div class="two chargetaxes">0.00</div>
                 <div class="one">Total:</div><div class="two chargetotal">0.00</div>
                 <div class="one">Paid:</div><div class="two chargepaid">0.00</div>
                 <div class="one">Due:</div><div class="two chargedue">0.00</div>
+                <div class="one">EBT Total:</div><div class="two chargeebttotal">0.00</div>
+                <div class="one">EBT Paid:</div><div class="two chargepaidtotal">0.00</div>
             </div>
         </div>
         

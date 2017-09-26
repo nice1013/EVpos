@@ -10,19 +10,35 @@ function Transactions() {
 
 
 function Transaction(){
-    this.SampleVar = "";
-}
-
-var Transacs = new Transaction();
-
-Transaction.prototype.transactionItem = function(_inputcash) {
+    var a = new Date();
+    //The unique id of this transaction
+    this.timeid = ("Tran_" + a.toLocaleDateString() + "_" + a.toLocaleTimeString()).trim(); 
+    //The total price of this current trasanction
     this.price = 0;
     this.taxes = 0;
     this.subtotal = 0;
     this.cashpaid = 0;
     this.creditpaid = 0;
+    this.refundpaid = 0;
+    this.EBTpaid = 0;
+    this.status = 0; //0=nothing, 1=current, 2=complete, 3=paused, 4=canceled
     this.creidprovider = "square";
     this.items = [];
+}
+
+var Transacs = new Transaction();
+
+Transaction.prototype.updateTransaction = function() {
+    //This function should be ran at the end of the registerClass.updatePrice function.
+    this.price = registerClass.price;
+    this.taxes = registerClass.taxes;
+    this.subtotal = registerClass.subtotal;
+    this.cashpaid = registerClass.cashpaid;
+    this.creditpaid = registerClass.creditpaid;
+    this.items = registerClass.items;
+    this.refundpaid = registerClass.refundpaid;
+    this.EBTpaid = registerClass.ebtPaid;
+    
 };
 
 Transaction.prototype.getEasyChangeString = function(_inputchange) {
@@ -57,8 +73,7 @@ Transaction.prototype.MakeTransaction = function() {
     
     //Create a new tranasactions class.
     var newTrans = new this.transactionItem();
-  
-    
+    alert("wever made changes and probbaly broke this");
     newTrans.price = registerClass.price;
     newTrans.taxes = registerClass.taxes;
     newTrans.cashpaid = registerClass.cashpaid;
@@ -70,7 +85,7 @@ Transaction.prototype.MakeTransaction = function() {
     registerClass.ClearOrder();
     registerClass.ClearPad();
     
-    
+    sendToPrinter(newTrans);
     
     return newTrans;
 }
@@ -80,24 +95,30 @@ Transaction.prototype.MakeTransaction = function() {
 
 
 function startSquareTransaction(number) { 
+    
     var dataParameter = 
     {
         "amount_money": 
             {
-                "amount" : "100",
+                "amount" : number * 100,
                 "currency_code" : "USD"
             },
         "callback_url" : "https://192.168.1.123/EVpos/phpScripts/catchSquareCallback.php", // Replace this value with your application's callback URL
         "client_id" : "sq0idp-LLGYs3-E49buaC8Hwu7lmw", // Replace this value with your application's ID
         "version": "1.3",
         "notes": "notes for the transaction",
+        "skip_receipt": true,
         "options" : {
                     "supported_tender_types" : ["CREDIT_CARD","OTHER","SQUARE_GIFT_CARD"]
                     }
     };
     
+    
+    
   
     var url = "square-commerce-v1://payment/create?data=" + encodeURIComponent(JSON.stringify(dataParameter));
+    
+    
     window.location.assign(url);
 }
 
@@ -154,15 +175,13 @@ function startCashTransaction(number) {
         //Update the infobox
         $("#infotextbox").html("<p> They still owe us money! </p>");
         $(".infobox").css("background", "#ffaaaa");
-        
-        $('.chargepaid').html(registerClass.cashpaid + registerClass.creditpaid);
-        $('.chargedue').html(registerClass.amountdue);
+        registerClass.RefreshPriceList();
         registerClass.ClearPad();
     }
     
     
     
-    //sendToPrinter(newTransaction);
+    
 }
 
 
@@ -185,22 +204,50 @@ function startCreditTransaction(number) {
         registerClass.creditpaid += registerClass.amountdue;
         alert(registerClass.creditpaid);
         startSquareTransaction(registerClass.amountdue);
-        
-        var newTransaction = Transacs.MakeTransaction();
+        //var newTransaction = Transacs.MakeTransaction();
         
     }
     else 
     {
         startSquareTransaction(registerClass.amountdue);
         registerClass.creditpaid += number;
-        registerClass.amountdue = parseFloat(registerClass.price) -  parseFloat(registerClass.cashpaid) +  parseFloat(registerClass.creditpaid);
+        registerClass.RefreshPriceList();
+        
+        //Update the infobox
+        $("#infotextbox").html("<p> They still owe us money! </p>");
+        $(".infobox").css("background", "#ffaaaa");
+        registerClass.ClearPad();
+        
+    }
+    
+    
+   
+     
+}
+
+
+function startEBTTransaction(number) {
+   $("#infotextbox").html("<p>Clicked 2</p>");
+   if (registerClass.price === 0 || number === 0 || registerClass.ebtTotal === 0) {
+        alert("Empty Transaction Prevention Act. Please Donate Money To Till.")
+        return null;
+    }
+    
+    //If it's enough for the transaction go true. else it's less and they owe us money
+    if (number >= registerClass.amountdue) {
+        registerClass.ebtPaid += registerClass.amountdue;
+        alert(registerClass.ebtPaid);
+        //var newTransaction = Transacs.MakeTransaction();
+        
+    }
+    else 
+    {
+        registerClass.ebtPaid += number;
+        registerClass.RefreshPriceList();
     
         //Update the infobox
         $("#infotextbox").html("<p> They still owe us money! </p>");
         $(".infobox").css("background", "#ffaaaa");
-        
-        $('.chargepaid').html(registerClass.cashpaid + registerClass.creditpaid);
-        $('.chargedue').html(registerClass.amountdue);
         registerClass.ClearPad();
         
     }
@@ -221,13 +268,18 @@ function startCreditTransaction(number) {
 
 
 
-
-
-
 //Cash Functions 
-$('#navCreditButton').live( "click", function(e){  
+$('#EBTpay').live( "click", function(e){  
     //If this is the second time we hit this thing
     $("#infotextbox").html("<p>Clicked </p>");
+    
+    var number = registerClass.quickParseFloat($("#pNumPadDisplay").html());
+    startEBTTransaction(number);
+});
+
+
+$('#navCreditButton').live( "click", function(e){  
+    //If this is the second time we hit this thing
     
     var number = registerClass.quickParseFloat($("#pNumPadDisplay").html());
     startCreditTransaction(number);
